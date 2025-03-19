@@ -1,5 +1,5 @@
 // Handle routing
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Routes configuration
     const routes = {
         '/': './index.html',
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Handle clicks on navigation links
     const links = document.querySelectorAll('a');
     links.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             e.preventDefault(); // Prevent the default link behavior
             const targetPath = link.getAttribute('href');
             history.pushState(null, '', targetPath); // Change URL
