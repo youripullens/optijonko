@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>De mooiste momenten van de mooiste dagen/avonden</title>
+    <title>De mooiste momenten</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="content/css/style.css">
 </head>
-
 <body>
 <header>
     <div class="container">
@@ -33,9 +32,9 @@
     <section id="home" data-aos="fade-up">
         <h2>Welkom op onze website</h2>
         <p>Welkom op de website van onze mooiste momenten samen. Hier delen we herinneringen die we samen hebben
-            gecreëerd en koesteren we de bijzondere tijd die we met elkaar doorbrengen.</p>
+            gecreëerd en de bijzondere tijd die we met elkaar doorbrengen.</p>
         <p style="margin-top: 1rem;">Blader door onze foto's, lees onze verhalen, en geniet van de reis die we samen
-            maken. Elk moment is een herinnering waard!</p>
+            maken!</p>
     </section>
 
     <section id="memories" data-aos="fade-up">
@@ -45,39 +44,39 @@
             <!-- Memory card 1 -->
             <div class="memory-card" data-aos="zoom-in" data-aos-delay="100">
                 <div class="memory-img">
-                    <span>Foto: Zonsondergang bij het strand</span>
+                    <img src="content/img/001.jpg" alt="Groepsfoto uit eten Split" class="fullscreen-img">
+                    <div class="fullscreen-icon"><i class="fas fa-expand"></i></div>
                 </div>
                 <div class="memory-content">
-                    <h3 class="memory-title">Strandavond in Scheveningen</h3>
+                    <h3 class="memory-title">Split</h3>
                     <p class="memory-date"><i class="far fa-calendar-alt"></i> 15 juli 2024</p>
-                    <p class="memory-description">Die perfecte avond dat we spontaan naar het strand gingen en tot laat
-                        bleven voor de zonsondergang. De kleuren in de lucht waren ongelooflijk.</p>
+                    <p class="memory-description">Split</p>
                 </div>
             </div>
 
             <!-- Memory card 2 -->
             <div class="memory-card" data-aos="zoom-in" data-aos-delay="200">
                 <div class="memory-img">
-                    <span>Foto: Verjaardagsfeest Laura</span>
+                    <img src="content/img/002.jpg" alt="GP Oostenrijk groepsfoto voor Sargeant" class="fullscreen-img">
+                    <div class="fullscreen-icon"><i class="fas fa-expand"></i></div>
                 </div>
                 <div class="memory-content">
-                    <h3 class="memory-title">Laura's Verrassingsfeest</h3>
+                    <h3 class="memory-title">GP Oostenrijk</h3>
                     <p class="memory-date"><i class="far fa-calendar-alt"></i> 3 maart 2024</p>
-                    <p class="memory-description">De verbaasde blik op Laura's gezicht toen ze binnenkwam en we allemaal
-                        "VERRASSING!" riepen. Een avond vol lachen, dansen en mooie gesprekken.</p>
+                    <p class="memory-description">GP Oostenrijk</p>
                 </div>
             </div>
 
             <!-- Memory card 3 -->
             <div class="memory-card" data-aos="zoom-in" data-aos-delay="300">
                 <div class="memory-img">
-                    <span>Foto: Wandelen in het bos</span>
+                    <img src="content/img/003.jpg" alt="Groepsfoto voor rots Lloret de Mar" class="fullscreen-img">
+                    <div class="fullscreen-icon"><i class="fas fa-expand"></i></div>
                 </div>
                 <div class="memory-content">
-                    <h3 class="memory-title">Herfstwandeling</h3>
+                    <h3 class="memory-title">Lloret de Mar</h3>
                     <p class="memory-date"><i class="far fa-calendar-alt"></i> 22 oktober 2024</p>
-                    <p class="memory-description">Een prachtige wandeling door het kleurrijke herfstbos. De bladeren
-                        knisperden onder onze voeten terwijl we genoten van de frisse herfstlucht.</p>
+                    <p class="memory-description">Lloret de Mar</p>
                 </div>
             </div>
         </div>
@@ -86,18 +85,26 @@
     <section id="about" data-aos="fade-up">
         <h2>Over onze vriendengroep</h2>
         <p>
-            Onze vriendengroep bestaat al sinds 2015, toen we elkaar ontmoetten tijdens onze studie in Utrecht.
+            Onze vriendengroep bestaat al vele jaren.
             Door de jaren heen hebben we veel meegemaakt samen - van feestjes en vakanties tot belangrijke
-            levensmomenten. Deze website is onze manier om al die speciale momenten vast te leggen en te
-            koesteren.
+            levensmomenten. Deze website is onze manier om al die speciale momenten vast te leggen.
         </p>
         <p style="margin-top: 1rem;">
-            Iedereen kan hier herinneringen toevoegen, foto's uploaden en reacties achterlaten.
-            Laten we samen onze mooiste momenten verzamelen en blijven genieten van alle nieuwe avonturen die nog komen
-            gaan!
+            Onze herinneringen zullen over de jaren heen hier toegevoegd worden
         </p>
     </section>
 </main>
+
+<!-- Fullscreen Modal -->
+<div class="fullscreen-modal" id="fullscreenModal">
+    <div class="close-fullscreen" id="closeFullscreen">
+        <i class="fas fa-times"></i>
+    </div>
+    <div class="fullscreen-content">
+        <img src="" alt="" id="fullscreenImage">
+        <div class="fullscreen-caption" id="fullscreenCaption"></div>
+    </div>
+</div>
 
 <footer>
     <div class="container">
@@ -176,6 +183,78 @@
                 navLinks.forEach(link => link.classList.remove('active'));
                 this.classList.add('active');
             });
+        });
+
+        // Fullscreen image functionality
+        const modal = document.getElementById('fullscreenModal');
+        const modalImg = document.getElementById('fullscreenImage');
+        const modalCaption = document.getElementById('fullscreenCaption');
+        const closeBtn = document.getElementById('closeFullscreen');
+        const fullscreenImages = document.querySelectorAll('.fullscreen-img');
+        const fullscreenIcons = document.querySelectorAll('.fullscreen-icon');
+
+        // Function to open fullscreen modal
+        function openFullscreen(imgSrc, caption) {
+            modalImg.src = imgSrc;
+            modalCaption.textContent = caption;
+            modal.classList.add('active');
+
+            // Prevent scrolling on the body
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Function to close fullscreen modal
+        function closeFullscreen() {
+            modal.classList.remove('active');
+
+            // Re-enable scrolling
+            document.body.style.overflow = 'auto';
+
+            // Clear src after animation completes
+            setTimeout(() => {
+                modalImg.src = '';
+            }, 300);
+        }
+
+        // Add click event listeners to all fullscreen images
+        fullscreenImages.forEach(img => {
+            img.addEventListener('click', function () {
+                const imgSrc = this.getAttribute('src');
+                const caption = this.getAttribute('alt');
+
+                openFullscreen(imgSrc, caption);
+            });
+        });
+
+        // Add click event listeners to all fullscreen icons
+        fullscreenIcons.forEach(icon => {
+            icon.addEventListener('click', function (e) {
+                e.stopPropagation(); // Prevent the event from bubbling up
+
+                const imgContainer = this.closest('.memory-img');
+                const img = imgContainer.querySelector('img');
+                const imgSrc = img.getAttribute('src');
+                const caption = img.getAttribute('alt');
+
+                openFullscreen(imgSrc, caption);
+            });
+        });
+
+        // Close modal when close button is clicked
+        closeBtn.addEventListener('click', closeFullscreen);
+
+        // Close modal when clicking outside the image
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                closeFullscreen();
+            }
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeFullscreen();
+            }
         });
     });
 
