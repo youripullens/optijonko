@@ -46,6 +46,166 @@
             top: 0;
         }
 
+        /* Hero section */
+        .hero-section {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .video-container video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
+        }
+
+        /* Sound toggle button */
+        .sound-toggle {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            opacity: 0.6;
+        }
+
+        .hero-section:hover .sound-toggle {
+            opacity: 1;
+        }
+
+        .sound-toggle:hover {
+            background-color: rgba(58, 110, 165, 0.8);
+            transform: scale(1.1);
+        }
+
+        /* Sound notification popup */
+        .sound-notification {
+            position: absolute;
+            bottom: 70px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .sound-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero content fade effect */
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+            z-index: 1;
+            transition: opacity 1.5s ease;
+        }
+
+        .hero-content.fade-out {
+            opacity: 0;
+        }
+
+        .hero-section h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        .scroll-indicator span {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .scroll-indicator i {
+            font-size: 1.5rem;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-right: auto;
+        }
+
         /* Header styles */
         header {
             background: linear-gradient(135deg, var(--primary-color), var(--dark-bg));
@@ -108,16 +268,23 @@
 
         /* Navigation */
         nav {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
             top: 0;
             z-index: 1000;
             transition: all 0.3s ease;
+            transform: translateY(-100%);
+        }
+
+        nav.visible {
+            transform: translateY(0);
         }
 
         nav.scrolled {
             padding: 0.5rem 0;
+            background-color: white;
         }
 
         .nav-container {
@@ -428,7 +595,7 @@
 
         .memory-img span {
             z-index: 1;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 0.5rem 1rem;
             border-radius: 20px;
             color: white;
@@ -442,7 +609,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%);
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -498,7 +665,7 @@
             border-radius: 12px;
             padding: 2.5rem;
             margin: 3rem 0;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         }
 
         /* Search box */
@@ -596,8 +763,12 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Back to top button */
@@ -625,8 +796,46 @@
             visibility: visible;
         }
 
+        .video-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(58, 110, 165, 0.7);
+            color: white;
+            border: none;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            font-size: 2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .video-play-btn:hover {
+            background-color: var(--primary-color);
+            transform: translate(-50%, -50%) scale(1.1);
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
+            .video-play-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
             h1 {
                 font-size: 2rem;
             }
@@ -703,15 +912,33 @@
     <div class="loader-spinner"></div>
 </div>
 
-<header>
-    <div class="container">
-        <h1>De mooiste momenten van de mooiste dagen/avonden samen</h1>
-        <p class="subtitle">'once you pop, the fun doesn't stop'</p>
+<!-- Hero Section -->
+<section class="hero-section" id="hero">
+    <div class="video-container">
+        <video autoplay loop playsinline id="heroVideo" muted>
+            <!-- We'll dynamically set the source based on device -->
+        </video>
+        <div class="video-overlay"></div>
+        <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound">
+            <i class="fas fa-volume-mute"></i>
+        </button>
+        <div class="sound-notification" id="soundNotification">
+            <span>Sound turned on</span>
+        </div>
     </div>
-</header>
+    <div class="hero-content" id="heroContent">
+        <h1>De mooiste momenten</h1>
+        <p class="hero-subtitle">Herinneringen die voor altijd blijven</p>
+        <div class="scroll-indicator">
+            <span>Scroll naar beneden</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </div>
+</section>
 
 <nav id="navbar">
     <div class="container nav-container">
+        <div class="logo">De mooiste momenten</div>
         <ul id="navMenu">
             <li><a href="#home" class="active"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="#memories"><i class="fas fa-camera"></i> Herinneringen</a></li>
@@ -725,6 +952,13 @@
     </div>
 </nav>
 <div class="nav-overlay" id="navOverlay"></div>
+
+<header>
+    <div class="container">
+        <h1>De mooiste momenten van de mooiste dagen/avonden samen</h1>
+        <p class="subtitle">'once you pop, the fun doesn't stop'</p>
+    </div>
+</header>
 
 <main class="container" id="main-content">
     <section id="home" data-aos="fade-up">
@@ -741,7 +975,8 @@
         <!-- Search box -->
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
-            <input type="text" class="search-box" id="searchBox" placeholder="Zoek herinneringen..." aria-label="Zoek herinneringen">
+            <input type="text" class="search-box" id="searchBox" placeholder="Zoek herinneringen..."
+                   aria-label="Zoek herinneringen">
         </div>
 
         <!-- Filter controls -->
@@ -754,16 +989,20 @@
 
         <div class="gallery" id="memoryGallery">
             <!-- Memory card 1 -->
-            <div class="memory-card" data-aos="zoom-in" data-aos-delay="100" data-category="vakanties" data-date="2024-07-15">
+            <div class="memory-card" data-aos="zoom-in" data-aos-delay="100" data-category="vakanties"
+                 data-date="2024-07-15">
                 <div class="memory-img">
                     <div class="img-placeholder"><i class="fas fa-image fa-2x"></i></div>
-                    <img src="content/img/001.jpg" alt="Groepsfoto uit eten Split" class="fullscreen-img" loading="lazy">
-                    <div class="fullscreen-icon" aria-label="Bekijk foto op volledig scherm"><i class="fas fa-expand"></i></div>
+                    <img src="content/img/001.jpg" alt="Groepsfoto uit eten Split" class="fullscreen-img"
+                         loading="lazy">
+                    <div class="fullscreen-icon" aria-label="Bekijk foto op volledig scherm"><i
+                            class="fas fa-expand"></i></div>
                 </div>
                 <div class="memory-content">
                     <h3 class="memory-title">Split</h3>
                     <p class="memory-date"><i class="far fa-calendar-alt"></i> 15 juli 2024</p>
-                    <p class="memory-description">Geweldige avond uit in Split tijdens onze zomervakantie aan de Kroatische kust.</p>
+                    <p class="memory-description">Geweldige avond uit in Split tijdens onze zomervakantie aan de
+                        Kroatische kust.</p>
                     <div class="memory-tags">
                         <span class="memory-tag">Vakanties</span>
                         <span class="memory-tag">Kroatië</span>
@@ -772,16 +1011,20 @@
             </div>
 
             <!-- Memory card 2 -->
-            <div class="memory-card" data-aos="zoom-in" data-aos-delay="200" data-category="evenementen" data-date="2024-03-03">
+            <div class="memory-card" data-aos="zoom-in" data-aos-delay="200" data-category="evenementen"
+                 data-date="2024-03-03">
                 <div class="memory-img">
                     <div class="img-placeholder"><i class="fas fa-image fa-2x"></i></div>
-                    <img src="content/img/002.jpg" alt="GP Oostenrijk groepsfoto voor Sargeant" class="fullscreen-img" loading="lazy">
-                    <div class="fullscreen-icon" aria-label="Bekijk foto op volledig scherm"><i class="fas fa-expand"></i></div>
+                    <img src="content/img/002.jpg" alt="GP Oostenrijk groepsfoto voor Sargeant" class="fullscreen-img"
+                         loading="lazy">
+                    <div class="fullscreen-icon" aria-label="Bekijk foto op volledig scherm"><i
+                            class="fas fa-expand"></i></div>
                 </div>
                 <div class="memory-content">
                     <h3 class="memory-title">GP Oostenrijk</h3>
                     <p class="memory-date"><i class="far fa-calendar-alt"></i> 3 maart 2024</p>
-                    <p class="memory-description">Onvergetelijke ervaring bij de Grand Prix van Oostenrijk. De sfeer was geweldig!</p>
+                    <p class="memory-description">Onvergetelijke ervaring bij de Grand Prix van Oostenrijk. De sfeer was
+                        geweldig!</p>
                     <div class="memory-tags">
                         <span class="memory-tag">Evenementen</span>
                         <span class="memory-tag">F1</span>
@@ -790,16 +1033,20 @@
             </div>
 
             <!-- Memory card 3 -->
-            <div class="memory-card" data-aos="zoom-in" data-aos-delay="300" data-category="vakanties" data-date="2024-10-22">
+            <div class="memory-card" data-aos="zoom-in" data-aos-delay="300" data-category="vakanties"
+                 data-date="2024-10-22">
                 <div class="memory-img">
                     <div class="img-placeholder"><i class="fas fa-image fa-2x"></i></div>
-                    <img src="content/img/003.jpg" alt="Groepsfoto voor rots Lloret de Mar" class="fullscreen-img" loading="lazy">
-                    <div class="fullscreen-icon" aria-label="Bekijk foto op volledig scherm"><i class="fas fa-expand"></i></div>
+                    <img src="content/img/003.jpg" alt="Groepsfoto voor rots Lloret de Mar" class="fullscreen-img"
+                         loading="lazy">
+                    <div class="fullscreen-icon" aria-label="Bekijk foto op volledig scherm"><i
+                            class="fas fa-expand"></i></div>
                 </div>
                 <div class="memory-content">
                     <h3 class="memory-title">Lloret de Mar</h3>
                     <p class="memory-date"><i class="far fa-calendar-alt"></i> 22 oktober 2024</p>
-                    <p class="memory-description">Herfstige stranddag bij de rotsformaties in Lloret de Mar. Perfecte afsluiting van het jaar.</p>
+                    <p class="memory-description">Herfstige stranddag bij de rotsformaties in Lloret de Mar. Perfecte
+                        afsluiting van het jaar.</p>
                     <div class="memory-tags">
                         <span class="memory-tag">Vakanties</span>
                         <span class="memory-tag">Spanje</span>
@@ -856,7 +1103,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Show loading indicator
         const loader = document.getElementById('pageLoader');
         loader.classList.add('active');
@@ -880,7 +1127,7 @@
         const imgPlaceholders = document.querySelectorAll('.img-placeholder');
 
         // Hide loader when page is fully loaded
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             setTimeout(() => {
                 loader.classList.remove('active');
             }, 500);
@@ -894,7 +1141,7 @@
                     if (placeholder) placeholder.classList.add('hidden');
                 } else {
                     // Set up load event for image
-                    img.addEventListener('load', function() {
+                    img.addEventListener('load', function () {
                         const placeholder = img.parentElement.querySelector('.img-placeholder');
                         if (placeholder) placeholder.classList.add('hidden');
                     });
@@ -902,9 +1149,17 @@
             });
         });
 
-        // Function to handle active navigation
+        // Function to handle active navigation and scrolling effects
         function setActiveNav() {
             const scrollPosition = window.scrollY;
+            const heroHeight = document.getElementById('hero').offsetHeight;
+
+            // Show/hide navbar based on scroll position
+            if (scrollPosition > heroHeight * 0.8) {
+                navbar.classList.add('visible');
+            } else {
+                navbar.classList.remove('visible');
+            }
 
             // Add scrolled class to navbar when scrolled down
             if (scrollPosition > 50) {
@@ -914,7 +1169,7 @@
             }
 
             // Show/hide back to top button
-            if (scrollPosition > 300) {
+            if (scrollPosition > heroHeight) {
                 backToTopBtn.classList.add('visible');
             } else {
                 backToTopBtn.classList.remove('visible');
@@ -937,35 +1192,288 @@
             });
         }
 
+        // Video background selection based on device
+        const heroVideo = document.getElementById('heroVideo');
+        const heroContent = document.getElementById('heroContent');
+        const soundToggle = document.getElementById('soundToggle');
+        const soundNotification = document.getElementById('soundNotification');
+
+        // Define video sources
+        const desktopVideo = '/content/video/desktop-background.mp4'; // Path to your desktop video
+        const mobileVideo = '/content/video/mobile-background.mp4';   // Path to your mobile video
+
+        // Variable to track user activity
+        let userInactive = false;
+        let inactivityTimer;
+        let fadeTimer;
+        let soundOn = false;
+
+        // Function to set the appropriate video source
+        function setVideoSource() {
+            // Check if device is mobile
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
+            // Store current muted state to restore after loading new source
+            const wasMuted = heroVideo.muted;
+
+            // Create source element
+            const source = document.createElement('source');
+
+            // Set source based on device type
+            if (isMobile) {
+                source.src = mobileVideo;
+            } else {
+                source.src = desktopVideo;
+            }
+
+            source.type = 'video/mp4';
+
+            // Clear any existing sources
+            heroVideo.innerHTML = '';
+
+            // Add the appropriate source
+            heroVideo.appendChild(source);
+
+            // Add fallback image
+            const fallbackImg = document.createElement('img');
+            fallbackImg.src = isMobile ? mobileVideo.replace('.mp4', '.jpg') : desktopVideo.replace('.mp4', '.jpg');
+            fallbackImg.alt = 'Onze mooiste momenten';
+            heroVideo.appendChild(fallbackImg);
+
+            // Make sure video is muted for autoplay
+            heroVideo.muted = true;
+
+            // Load and play the video
+            heroVideo.load();
+
+            heroVideo.addEventListener('canplaythrough', function onCanPlay() {
+                heroVideo.play().catch(e => {
+                    console.log('Autoplay prevented:', e);
+                    createPlayButton();
+                });
+
+                // Restore previous sound state if it was unmuted
+                if (!wasMuted && soundOn) {
+                    // We need a user interaction first, so we can't just unmute here
+                    // Instead, show a notification that sound needs to be re-enabled
+                    showNotification('Please re-enable sound');
+                }
+
+                // Remove the event listener to prevent multiple calls
+                heroVideo.removeEventListener('canplaythrough', onCanPlay);
+            }, {once: true});
+        }
+
+        // Function to create play button if autoplay is prevented
+        function createPlayButton() {
+            const playButtonExists = document.querySelector('.video-play-btn');
+            if (!playButtonExists) {
+                const playButton = document.createElement('button');
+                playButton.innerHTML = '<i class="fas fa-play"></i>';
+                playButton.className = 'video-play-btn';
+                playButton.setAttribute('aria-label', 'Play video');
+                document.querySelector('.hero-content').appendChild(playButton);
+
+                playButton.addEventListener('click', () => {
+                    heroVideo.play().then(() => {
+                        playButton.style.display = 'none';
+                    }).catch(e => {
+                        console.log('Play prevented:', e);
+                        showNotification('Video play prevented by browser');
+                    });
+                });
+            }
+        }
+
+        // Function to show notification
+        function showNotification(message) {
+            soundNotification.querySelector('span').textContent = message;
+            soundNotification.classList.add('show');
+
+            setTimeout(() => {
+                soundNotification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Handle sound toggle with better error handling
+        soundToggle.addEventListener('click', function () {
+            try {
+                // Try to unmute the video
+                if (heroVideo.muted) {
+                    // We need to have user interaction to unmute
+                    // This click counts as user interaction
+                    const playPromise = heroVideo.play();
+
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            // Successfully started playing
+                            heroVideo.muted = false;
+                            soundOn = true;
+                            soundToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+                            showNotification('Sound turned on');
+
+                            // Add a flag to the video element to track sound state
+                            heroVideo.dataset.soundOn = 'true';
+                        }).catch(e => {
+                            console.error('Error unmuting video:', e);
+                            showNotification('Could not enable sound');
+                        });
+                    }
+                } else {
+                    // Mute the video
+                    heroVideo.muted = true;
+                    soundOn = false;
+                    soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                    showNotification('Sound turned off');
+
+                    // Update flag
+                    heroVideo.dataset.soundOn = 'false';
+                }
+            } catch (error) {
+                console.error('Error toggling sound:', error);
+                showNotification('Error toggling sound');
+            }
+        });
+
+        // Function to handle text fade out when user is inactive
+        function startInactivityTracking() {
+            // Start inactivity timer - text fades after 4 seconds of no interaction
+            inactivityTimer = setTimeout(() => {
+                userInactive = true;
+                // Fade out text
+                fadeTimer = setTimeout(() => {
+                    heroContent.classList.add('fade-out');
+                }, 1000);
+            }, 4000);
+        }
+
+        // Function to handle user activity
+        function handleUserActivity() {
+            // Clear existing timers
+            clearTimeout(inactivityTimer);
+            clearTimeout(fadeTimer);
+
+            // If text was faded out, fade it back in
+            if (userInactive) {
+                heroContent.classList.remove('fade-out');
+                userInactive = false;
+            }
+
+            // Restart inactivity tracking
+            startInactivityTracking();
+        }
+
+        // Track user activity in the hero section
+        document.addEventListener('mousemove', handleUserActivity);
+        document.addEventListener('click', handleUserActivity);
+        document.addEventListener('keydown', handleUserActivity);
+        document.addEventListener('scroll', handleUserActivity);
+        document.addEventListener('touchstart', handleUserActivity, {passive: true});
+
+        // Start inactivity tracking on page load
+        window.addEventListener('load', function () {
+            startInactivityTracking();
+
+            // Make sound toggle button more visible initially to draw attention
+            setTimeout(() => {
+                soundToggle.style.opacity = '0.8';
+                setTimeout(() => {
+                    if (window.getComputedStyle(soundToggle).opacity === '0.8') {
+                        soundToggle.style.opacity = '0.6';
+                    }
+                }, 3000);
+            }, 1000);
+        });
+
+        // Set video source on page load
+        setVideoSource();
+
+        // Debug: Add a message to console when video has loaded metadata
+        heroVideo.addEventListener('loadedmetadata', function () {
+            console.log('Video metadata loaded. Duration:', heroVideo.duration);
+            console.log('Video has audio tracks:', heroVideo.mozHasAudio ||
+                Boolean(heroVideo.webkitAudioDecodedByteCount) ||
+                Boolean(heroVideo.audioTracks && heroVideo.audioTracks.length));
+        });
+
+        // Update video source if window is resized between breakpoints
+        let lastBreakpoint = window.innerWidth < 768 ? 'mobile' : 'desktop';
+
+        window.addEventListener('resize', () => {
+            const currentBreakpoint = window.innerWidth < 768 ? 'mobile' : 'desktop';
+            if (currentBreakpoint !== lastBreakpoint) {
+                lastBreakpoint = currentBreakpoint;
+                // Remember sound state before changing source
+                const soundWasOn = soundOn;
+                setVideoSource();
+                // If sound was on, show notification to re-enable
+                if (soundWasOn) {
+                    setTimeout(() => {
+                        showNotification('Please re-enable sound after resize');
+                    }, 1000);
+                }
+            }
+
+            // Reset inactivity tracking on resize
+            handleUserActivity();
+        });
+
+        // Pause video when not visible to save resources
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                heroVideo.pause();
+            } else {
+                const playPromise = heroVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => {
+                        console.log('Play prevented on visibility change:', e);
+                        createPlayButton();
+                    });
+                }
+
+                // Reset inactivity tracking when tab becomes visible again
+                handleUserActivity();
+            }
+        });
+
         // Initial call and event listener for navigation
         setActiveNav();
         window.addEventListener('scroll', setActiveNav);
 
         // Mobile menu toggle
-        hamburgerBtn.addEventListener('click', function() {
+        hamburgerBtn.addEventListener('click', function () {
             navMenu.classList.toggle('active');
             navOverlay.classList.toggle('active');
             document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
         });
 
         // Close mobile menu when overlay is clicked
-        navOverlay.addEventListener('click', function() {
+        navOverlay.addEventListener('click', function () {
             navMenu.classList.remove('active');
             navOverlay.classList.remove('active');
             document.body.style.overflow = 'auto';
         });
 
         // Back to top button
-        backToTopBtn.addEventListener('click', function() {
+        backToTopBtn.addEventListener('click', function () {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
         });
 
+        // Scroll indicator click handler
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        scrollIndicator.addEventListener('click', function () {
+            window.scrollTo({
+                top: window.innerHeight,
+                behavior: 'smooth'
+            });
+        });
+
         // Smooth scrolling for navigation links
         navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
+            link.addEventListener('click', function (e) {
                 e.preventDefault();
 
                 const targetId = this.getAttribute('href');
@@ -992,7 +1500,7 @@
 
         // Filter functionality
         filterBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 // Update active state
                 filterBtns.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
@@ -1015,7 +1523,7 @@
         });
 
         // Search functionality
-        searchBox.addEventListener('input', function() {
+        searchBox.addEventListener('input', function () {
             const searchTerm = this.value.toLowerCase();
 
             memoryCards.forEach(card => {
@@ -1098,7 +1606,7 @@
 
         // Add click event listeners to all images
         fullscreenImages.forEach((img, index) => {
-            img.addEventListener('click', function(e) {
+            img.addEventListener('click', function (e) {
                 e.preventDefault();
                 const imgSrc = this.getAttribute('src');
                 const caption = this.getAttribute('alt');
@@ -1108,7 +1616,7 @@
 
         // Add click event listeners to all fullscreen icons
         fullscreenIcons.forEach((icon, index) => {
-            icon.addEventListener('click', function(e) {
+            icon.addEventListener('click', function (e) {
                 e.stopPropagation();
                 const imgContainer = this.closest('.memory-img');
                 const img = imgContainer.querySelector('img');
@@ -1120,23 +1628,23 @@
 
         // Close modal handlers
         closeBtn.addEventListener('click', closeFullscreen);
-        modal.addEventListener('click', function(e) {
+        modal.addEventListener('click', function (e) {
             if (e.target === modal) {
                 closeFullscreen();
             }
         });
 
         // Navigation handlers
-        prevBtn.addEventListener('click', function() {
+        prevBtn.addEventListener('click', function () {
             navigateImage(-1);
         });
 
-        nextBtn.addEventListener('click', function() {
+        nextBtn.addEventListener('click', function () {
             navigateImage(1);
         });
 
         // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (!modal.classList.contains('active')) return;
 
             if (e.key === 'Escape') {
