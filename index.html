@@ -8,9 +8,701 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-    <link rel="stylesheet" href="content/css/style.css">
+    <style>
+        :root {
+            --primary-color: #3a6ea5;
+            --secondary-color: #ff6b6b;
+            --accent-color: #ffe66d;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --dark-bg: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            z-index: 1001;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Header styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-bg));
+            color: white;
+            text-align: center;
+            padding: 4rem 0 2.5rem;
+            position: relative;
+            margin-bottom: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpath fill='%23f8f9fa' fill-opacity='1' d='M0,64L60,64C120,64,240,64,360,58.7C480,53,600,43,720,42.7C840,43,960,53,1080,58.7C1200,64,1320,64,1380,64L1440,64L1440,100L1380,100C1320,100,1200,100,1080,100C960,100,840,100,720,100C600,100,480,100,360,100C240,100,120,100,60,100L0,100Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin: 2rem 0 1.5rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60%;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.5rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            padding: 1rem 0;
+        }
+
+        nav li {
+            margin: 0 1.5rem;
+        }
+
+        nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover, nav a:focus {
+            color: var(--secondary-color);
+            outline: none;
+        }
+
+        nav a:hover::after, nav a:focus::after {
+            width: 100%;
+        }
+
+        nav a.active {
+            color: var(--secondary-color);
+        }
+
+        nav a.active::after {
+            width: 100%;
+        }
+
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 2rem;
+            height: 2rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .hamburger-menu:focus {
+            outline: 2px solid var(--secondary-color);
+        }
+
+        .hamburger-menu div {
+            width: 2rem;
+            height: 0.25rem;
+            background: var(--primary-color);
+            border-radius: 10px;
+            transition: all 0.3s linear;
+            position: relative;
+            transform-origin: 1px;
+        }
+
+        /* Sections */
+        main {
+            padding: 2rem 0;
+        }
+
+        section {
+            padding: 2rem 0;
+            min-height: 50vh;
+        }
+
+        /* Filter controls */
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            background-color: white;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn:focus, .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            outline: none;
+        }
+
+        /* Memory gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0 3rem;
+        }
+
+        .memory-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .memory-img {
+            width: 100%;
+            height: 220px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .memory-img .img-placeholder {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e9ecef;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .memory-img .img-placeholder.hidden {
+            opacity: 0;
+            z-index: -1;
+        }
+
+        .memory-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.5s ease;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on iOS */
+            -webkit-touch-callout: none; /* Disable callout on iOS */
+            user-select: none; /* Prevent user selection */
+        }
+
+        /* Only apply hover effects on non-touch devices */
+        @media (hover: hover) {
+            .memory-card:hover .memory-img img {
+                transform: scale(1.05);
+            }
+
+            .memory-img:hover .fullscreen-icon {
+                opacity: 1;
+            }
+        }
+
+        .fullscreen-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        /* Fullscreen Modal */
+        .fullscreen-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+        }
+
+        .fullscreen-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .fullscreen-content {
+            max-width: 95%;
+            max-height: 90%;
+            position: relative;
+            width: auto;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .fullscreen-caption {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 1rem;
+            border-radius: 5px;
+        }
+
+        .fullscreen-nav {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+
+        .fullscreen-nav button {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 0 10px;
+            pointer-events: auto;
+        }
+
+        .fullscreen-nav button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .close-fullscreen {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-fullscreen:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .memory-img span {
+            z-index: 1;
+            background-color: rgba(0,0,0,0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .memory-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .memory-card:hover .memory-img::before {
+            opacity: 1;
+        }
+
+        .memory-content {
+            padding: 1.8rem;
+        }
+
+        .memory-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .memory-date {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .memory-date i {
+            margin-right: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .memory-description {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .memory-tag {
+            display: inline-block;
+            background-color: var(--light-bg);
+            color: var(--primary-color);
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* About section */
+        #about {
+            background-color: #f5f5f5;
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        /* Search box */
+        .search-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 3rem;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(58, 110, 165, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 0 1.5rem;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            transform: translateY(-100%);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpath fill='%232c3e50' fill-opacity='1' d='M0,32L60,42.7C120,53,240,75,360,80C480,85,600,75,720,69.3C840,64,960,64,1080,69.3C1200,75,1320,85,1380,90.7L1440,96L1440,100L1380,100C1320,100,1200,100,1080,100C960,100,840,100,720,100C600,100,480,100,360,100C240,100,120,100,60,100L0,100Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .social-icons {
+            margin: 1.5rem 0;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 0.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Loading indicator */
+        .loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader.active {
+            display: flex;
+        }
+
+        .loader-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.7rem;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+
+            nav ul {
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                right: -300px;
+                background-color: white;
+                height: 100vh;
+                width: 300px;
+                padding: 4rem 2rem;
+                transition: right 0.3s ease;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+
+            nav ul.active {
+                right: 0;
+            }
+
+            nav li {
+                margin: 1rem 0;
+            }
+
+            .nav-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+            }
+
+            .nav-overlay.active {
+                display: block;
+            }
+
+            .memory-img {
+                height: 180px;
+            }
+
+            .memory-content {
+                padding: 1.2rem;
+            }
+
+            #about {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
+<!-- Accessibility skip link -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Loading indicator -->
+<div class="loader" id="pageLoader">
+    <div class="loader-spinner"></div>
+</div>
+
 <header>
     <div class="container">
         <h1>De mooiste momenten van de mooiste dagen/avonden samen</h1>
@@ -19,16 +711,22 @@
 </header>
 
 <nav id="navbar">
-    <div class="container">
-        <ul>
+    <div class="container nav-container">
+        <ul id="navMenu">
             <li><a href="#home" class="active"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="#memories"><i class="fas fa-camera"></i> Herinneringen</a></li>
             <li><a href="#about"><i class="fas fa-users"></i> Over ons</a></li>
         </ul>
+        <button class="hamburger-menu" id="hamburgerBtn" aria-label="Menu">
+            <div></div>
+            <div></div>
+            <div></div>
+        </button>
     </div>
 </nav>
+<div class="nav-overlay" id="navOverlay"></div>
 
-<main class="container">
+<main class="container" id="main-content">
     <section id="home" data-aos="fade-up">
         <h2>Welkom op onze website</h2>
         <p>Welkom op de website van onze mooiste momenten samen. Hier delen we herinneringen die we samen hebben
@@ -40,43 +738,72 @@
     <section id="memories" data-aos="fade-up">
         <h2>Onze momenten</h2>
 
-        <div class="gallery">
+        <!-- Search box -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-box" id="searchBox" placeholder="Zoek herinneringen..." aria-label="Zoek herinneringen">
+        </div>
+
+        <!-- Filter controls -->
+        <div class="filter-controls">
+            <button class="filter-btn active" data-filter="all">Alle</button>
+            <button class="filter-btn" data-filter="vakanties">Vakanties</button>
+            <button class="filter-btn" data-filter="evenementen">Evenementen</button>
+            <button class="filter-btn" data-filter="2024">2024</button>
+        </div>
+
+        <div class="gallery" id="memoryGallery">
             <!-- Memory card 1 -->
-            <div class="memory-card" data-aos="zoom-in" data-aos-delay="100">
+            <div class="memory-card" data-aos="zoom-in" data-aos-delay="100" data-category="vakanties" data-date="2024-07-15">
                 <div class="memory-img">
-                    <img src="content/img/001.jpg" alt="Groepsfoto uit eten Split" class="fullscreen-img">
-                    <div class="fullscreen-icon"><i class="fas fa-expand"></i></div>
+                    <div class="img-placeholder"><i class="fas fa-image fa-2x"></i></div>
+                    <img src="content/img/001.jpg" alt="Groepsfoto uit eten Split" class="fullscreen-img" loading="lazy">
+                    <div class="fullscreen-icon" aria-label="Bekijk foto op volledig scherm"><i class="fas fa-expand"></i></div>
                 </div>
                 <div class="memory-content">
                     <h3 class="memory-title">Split</h3>
                     <p class="memory-date"><i class="far fa-calendar-alt"></i> 15 juli 2024</p>
-                    <p class="memory-description">Split</p>
+                    <p class="memory-description">Geweldige avond uit in Split tijdens onze zomervakantie aan de Kroatische kust.</p>
+                    <div class="memory-tags">
+                        <span class="memory-tag">Vakanties</span>
+                        <span class="memory-tag">Kroatië</span>
+                    </div>
                 </div>
             </div>
 
             <!-- Memory card 2 -->
-            <div class="memory-card" data-aos="zoom-in" data-aos-delay="200">
+            <div class="memory-card" data-aos="zoom-in" data-aos-delay="200" data-category="evenementen" data-date="2024-03-03">
                 <div class="memory-img">
-                    <img src="content/img/002.jpg" alt="GP Oostenrijk groepsfoto voor Sargeant" class="fullscreen-img">
-                    <div class="fullscreen-icon"><i class="fas fa-expand"></i></div>
+                    <div class="img-placeholder"><i class="fas fa-image fa-2x"></i></div>
+                    <img src="content/img/002.jpg" alt="GP Oostenrijk groepsfoto voor Sargeant" class="fullscreen-img" loading="lazy">
+                    <div class="fullscreen-icon" aria-label="Bekijk foto op volledig scherm"><i class="fas fa-expand"></i></div>
                 </div>
                 <div class="memory-content">
                     <h3 class="memory-title">GP Oostenrijk</h3>
                     <p class="memory-date"><i class="far fa-calendar-alt"></i> 3 maart 2024</p>
-                    <p class="memory-description">GP Oostenrijk</p>
+                    <p class="memory-description">Onvergetelijke ervaring bij de Grand Prix van Oostenrijk. De sfeer was geweldig!</p>
+                    <div class="memory-tags">
+                        <span class="memory-tag">Evenementen</span>
+                        <span class="memory-tag">F1</span>
+                    </div>
                 </div>
             </div>
 
             <!-- Memory card 3 -->
-            <div class="memory-card" data-aos="zoom-in" data-aos-delay="300">
+            <div class="memory-card" data-aos="zoom-in" data-aos-delay="300" data-category="vakanties" data-date="2024-10-22">
                 <div class="memory-img">
-                    <img src="content/img/003.jpg" alt="Groepsfoto voor rots Lloret de Mar" class="fullscreen-img">
-                    <div class="fullscreen-icon"><i class="fas fa-expand"></i></div>
+                    <div class="img-placeholder"><i class="fas fa-image fa-2x"></i></div>
+                    <img src="content/img/003.jpg" alt="Groepsfoto voor rots Lloret de Mar" class="fullscreen-img" loading="lazy">
+                    <div class="fullscreen-icon" aria-label="Bekijk foto op volledig scherm"><i class="fas fa-expand"></i></div>
                 </div>
                 <div class="memory-content">
                     <h3 class="memory-title">Lloret de Mar</h3>
                     <p class="memory-date"><i class="far fa-calendar-alt"></i> 22 oktober 2024</p>
-                    <p class="memory-description">Lloret de Mar</p>
+                    <p class="memory-description">Herfstige stranddag bij de rotsformaties in Lloret de Mar. Perfecte afsluiting van het jaar.</p>
+                    <div class="memory-tags">
+                        <span class="memory-tag">Vakanties</span>
+                        <span class="memory-tag">Spanje</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -96,22 +823,31 @@
 </main>
 
 <!-- Fullscreen Modal -->
-<div class="fullscreen-modal" id="fullscreenModal">
-    <div class="close-fullscreen" id="closeFullscreen">
+<div class="fullscreen-modal" id="fullscreenModal" aria-modal="true" role="dialog" aria-label="Afbeelding gallerij">
+    <button class="close-fullscreen" id="closeFullscreen" aria-label="Sluit volledig scherm">
         <i class="fas fa-times"></i>
-    </div>
+    </button>
     <div class="fullscreen-content">
         <img src="" alt="" id="fullscreenImage">
         <div class="fullscreen-caption" id="fullscreenCaption"></div>
+        <div class="fullscreen-nav">
+            <button id="prevImage" aria-label="Vorige afbeelding"><i class="fas fa-chevron-left"></i></button>
+            <button id="nextImage" aria-label="Volgende afbeelding"><i class="fas fa-chevron-right"></i></button>
+        </div>
     </div>
 </div>
+
+<!-- Back to top button -->
+<button class="back-to-top" id="backToTopBtn" aria-label="Terug naar boven">
+    <i class="fas fa-arrow-up"></i>
+</button>
 
 <footer>
     <div class="container">
         <div class="social-icons">
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
         <p>&copy; 2025 De mooiste momenten van de mooiste dagen/avonden</p>
         <p>Met liefde gemaakt voor onze vriendschap</p>
@@ -119,6 +855,320 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-<script src="content/js/home.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Show loading indicator
+        const loader = document.getElementById('pageLoader');
+        loader.classList.add('active');
+
+        // Initialize AOS animation library
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // Get DOM elements
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.querySelectorAll('nav a');
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navMenu = document.getElementById('navMenu');
+        const navOverlay = document.getElementById('navOverlay');
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        const searchBox = document.getElementById('searchBox');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const memoryCards = document.querySelectorAll('.memory-card');
+        const imgPlaceholders = document.querySelectorAll('.img-placeholder');
+
+        // Hide loader when page is fully loaded
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                loader.classList.remove('active');
+            }, 500);
+
+            // Show image placeholders until images are loaded
+            const images = document.querySelectorAll('.memory-img img');
+            images.forEach(img => {
+                if (img.complete) {
+                    // Image already loaded
+                    const placeholder = img.parentElement.querySelector('.img-placeholder');
+                    if (placeholder) placeholder.classList.add('hidden');
+                } else {
+                    // Set up load event for image
+                    img.addEventListener('load', function() {
+                        const placeholder = img.parentElement.querySelector('.img-placeholder');
+                        if (placeholder) placeholder.classList.add('hidden');
+                    });
+                }
+            });
+        });
+
+        // Function to handle active navigation
+        function setActiveNav() {
+            const scrollPosition = window.scrollY;
+
+            // Add scrolled class to navbar when scrolled down
+            if (scrollPosition > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Show/hide back to top button
+            if (scrollPosition > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+
+            // Set active nav item based on scroll position
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Initial call and event listener for navigation
+        setActiveNav();
+        window.addEventListener('scroll', setActiveNav);
+
+        // Mobile menu toggle
+        hamburgerBtn.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close mobile menu when overlay is clicked
+        navOverlay.addEventListener('click', function() {
+            navMenu.classList.remove('active');
+            navOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Back to top button
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+
+                // Close mobile menu if open
+                navMenu.classList.remove('active');
+                navOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+
+                window.scrollTo({
+                    top: targetSection.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+
+                // Update URL hash without jumping
+                history.pushState(null, null, targetId);
+
+                // Update active state
+                navLinks.forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Filter functionality
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update active state
+                filterBtns.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.getAttribute('data-filter');
+
+                // Show/hide memory cards based on filter
+                memoryCards.forEach(card => {
+                    if (filter === 'all') {
+                        card.style.display = 'block';
+                    } else if (card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                    } else if (filter === '2024' && card.getAttribute('data-date').includes('2024')) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Search functionality
+        searchBox.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+
+            memoryCards.forEach(card => {
+                const title = card.querySelector('.memory-title').textContent.toLowerCase();
+                const desc = card.querySelector('.memory-description').textContent.toLowerCase();
+                const tags = Array.from(card.querySelectorAll('.memory-tag')).map(tag => tag.textContent.toLowerCase());
+
+                if (title.includes(searchTerm) || desc.includes(searchTerm) || tags.some(tag => tag.includes(searchTerm))) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Improved fullscreen gallery
+        const modal = document.getElementById('fullscreenModal');
+        const modalImg = document.getElementById('fullscreenImage');
+        const modalCaption = document.getElementById('fullscreenCaption');
+        const closeBtn = document.getElementById('closeFullscreen');
+        const prevBtn = document.getElementById('prevImage');
+        const nextBtn = document.getElementById('nextImage');
+        const fullscreenImages = document.querySelectorAll('.fullscreen-img');
+        const fullscreenIcons = document.querySelectorAll('.fullscreen-icon');
+
+        let currentImageIndex = 0;
+        const images = Array.from(fullscreenImages);
+
+        // Function to open fullscreen modal
+        function openFullscreen(imgSrc, caption, index) {
+            currentImageIndex = index;
+            modalImg.src = imgSrc;
+            modalCaption.textContent = caption;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Preload next and previous images
+            if (images.length > 1) {
+                const nextIndex = (currentImageIndex + 1) % images.length;
+                const prevIndex = (currentImageIndex - 1 + images.length) % images.length;
+
+                new Image().src = images[nextIndex].src;
+                new Image().src = images[prevIndex].src;
+            }
+
+            // Update navigation visibility
+            updateNavButtons();
+        }
+
+        // Function to close fullscreen modal
+        function closeFullscreen() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Function to navigate to next/previous image
+        function navigateImage(direction) {
+            currentImageIndex = (currentImageIndex + direction + images.length) % images.length;
+            const img = images[currentImageIndex];
+            modalImg.src = img.src;
+            modalCaption.textContent = img.alt;
+
+            // Preload next image
+            const nextIndex = (currentImageIndex + direction + images.length) % images.length;
+            new Image().src = images[nextIndex].src;
+
+            updateNavButtons();
+        }
+
+        // Function to update navigation buttons
+        function updateNavButtons() {
+            if (images.length <= 1) {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'block';
+                nextBtn.style.display = 'block';
+            }
+        }
+
+        // Add click event listeners to all images
+        fullscreenImages.forEach((img, index) => {
+            img.addEventListener('click', function(e) {
+                e.preventDefault();
+                const imgSrc = this.getAttribute('src');
+                const caption = this.getAttribute('alt');
+                openFullscreen(imgSrc, caption, index);
+            });
+        });
+
+        // Add click event listeners to all fullscreen icons
+        fullscreenIcons.forEach((icon, index) => {
+            icon.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const imgContainer = this.closest('.memory-img');
+                const img = imgContainer.querySelector('img');
+                const imgSrc = img.getAttribute('src');
+                const caption = img.getAttribute('alt');
+                openFullscreen(imgSrc, caption, index);
+            });
+        });
+
+        // Close modal handlers
+        closeBtn.addEventListener('click', closeFullscreen);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeFullscreen();
+            }
+        });
+
+        // Navigation handlers
+        prevBtn.addEventListener('click', function() {
+            navigateImage(-1);
+        });
+
+        nextBtn.addEventListener('click', function() {
+            navigateImage(1);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (!modal.classList.contains('active')) return;
+
+            if (e.key === 'Escape') {
+                closeFullscreen();
+            } else if (e.key === 'ArrowLeft') {
+                navigateImage(-1);
+            } else if (e.key === 'ArrowRight') {
+                navigateImage(1);
+            }
+        });
+
+        // Handle initial page load (show section based on hash)
+        const hash = window.location.hash || '#home';
+        const targetSection = document.querySelector(hash);
+
+        if (targetSection) {
+            setTimeout(() => {
+                window.scrollTo({
+                    top: targetSection.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+
+                // Update active state in navigation
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                    }
+                });
+            }, 100);
+        }
+    });
+</script>
 </body>
 </html>
