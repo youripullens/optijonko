@@ -29,9 +29,11 @@ class MemoriesApp {
             hero: document.getElementById('hero'),
             heroVideo: document.getElementById('heroVideo'),
             heroContent: document.getElementById('heroContent'),
+            videoOverlay: document.querySelector('.video-overlay'),
             soundToggle: document.getElementById('soundToggle'),
             soundNotification: document.getElementById('soundNotification'),
             scrollIndicator: document.querySelector('.scroll-indicator')
+
         };
 
         // Video sources
@@ -330,9 +332,30 @@ class MemoriesApp {
         // Ensure video is muted for autoplay
         this.elements.heroVideo.muted = true;
 
-        // Load and play the video
+        // Load the video
         this.elements.heroVideo.load();
-        this.playVideo();
+
+        // Add an event listener to ensure play button state is correct after loading
+        this.elements.heroVideo.addEventListener('loadeddata', () => {
+            // Remove any existing play buttons to avoid duplicates
+            const existingButton = document.querySelector('.video-play-btn');
+            if (existingButton) {
+                existingButton.remove();
+            }
+
+            // Try to play the video
+            this.elements.heroVideo.play().catch(e => {
+                console.log('Initial autoplay prevented, will add play button:', e);
+            });
+
+            // Check after if the video is actually playing
+            setTimeout(() => {
+                if (this.elements.heroVideo.paused) {
+                    console.log('Video still paused after loading, creating play button');
+                    this.createPlayButton();
+                }
+            }, 300);
+        });
 
         // Restore sound state if it was unmuted
         if (!wasMuted && this.state.soundOn) {
@@ -344,10 +367,21 @@ class MemoriesApp {
      * Play video with error handling
      */
     playVideo() {
-        this.elements.heroVideo.play().catch(e => {
-            console.log('Autoplay prevented:', e);
-            this.createPlayButton();
-        });
+        // Only attempt to play if the video is currently paused
+        if (this.elements.heroVideo.paused) {
+            this.elements.heroVideo.play()
+                .then(() => {
+                    // Video played successfully, remove play button if it exists
+                    const playButton = document.querySelector('.video-play-btn');
+                    if (playButton) {
+                        playButton.style.display = 'none';
+                    }
+                })
+                .catch(e => {
+                    console.log('Autoplay prevented:', e);
+                    this.createPlayButton();
+                });
+        }
     }
 
     /**
@@ -355,20 +389,26 @@ class MemoriesApp {
      */
     createPlayButton() {
         const playButtonExists = document.querySelector('.video-play-btn');
-        if (!playButtonExists) {
+
+        // Only create a play button if:
+        // 1. A play button doesn't already exist
+        // 2. The video is actually paused (autoplay was prevented)
+        if (!playButtonExists && this.elements.heroVideo.paused) {
             const playButton = document.createElement('button');
             playButton.innerHTML = '<i class="fas fa-play"></i>';
             playButton.className = 'video-play-btn';
             playButton.setAttribute('aria-label', 'Play video');
-            this.elements.heroContent.appendChild(playButton);
+            this.elements.heroVideo.parentNode.appendChild(playButton);
 
             playButton.addEventListener('click', () => {
-                this.elements.heroVideo.play().then(() => {
-                    playButton.style.display = 'none';
-                }).catch(e => {
-                    console.log('Play prevented:', e);
-                    this.showNotification('Video play prevented by browser');
-                });
+                this.elements.heroVideo.play()
+                    .then(() => {
+                        playButton.style.display = 'none';
+                    })
+                    .catch(e => {
+                        console.log('Play prevented:', e);
+                        this.showNotification('Video play prevented by browser');
+                    });
             });
         }
     }
@@ -415,9 +455,10 @@ class MemoriesApp {
         // Start inactivity timer - text fades after 4 seconds of no interaction
         this.state.inactivityTimer = setTimeout(() => {
             this.state.userInactive = true;
-            // Fade out text
+            // Fade out text AND video overlay
             this.state.fadeTimer = setTimeout(() => {
                 this.elements.heroContent.classList.add('fade-out');
+                this.elements.videoOverlay.classList.add('fade-out');
             }, 1000);
         }, 4000);
     }
@@ -433,6 +474,7 @@ class MemoriesApp {
         // If text was faded out, fade it back in
         if (this.state.userInactive) {
             this.elements.heroContent.classList.remove('fade-out');
+            this.elements.videoOverlay.classList.remove('fade-out');
             this.state.userInactive = false;
         }
 

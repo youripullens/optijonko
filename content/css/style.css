@@ -281,6 +281,11 @@ a:hover, a:focus {
             rgba(0, 0, 0, 0.4),
             rgba(0, 0, 0, 0.6)
     );
+    transition: opacity 1.5s ease;
+}
+
+.video-overlay.fade-out {
+    opacity: 0;
 }
 
 /* Sound toggle button */
