@@ -3,7 +3,6 @@
  * Handles all interactive functionality for the memories website
  */
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize the application when DOM is ready
     const app = new MemoriesApp();
     app.init();
 });
