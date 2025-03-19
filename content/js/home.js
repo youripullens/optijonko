@@ -193,6 +193,19 @@ class MemoriesApp {
             this.elements.backToTopBtn.classList.remove('visible');
         }
 
+        // Pause/play the hero video based on scroll position
+        if (scrollPosition > heroHeight * 0.5) {
+            // If user has scrolled past half of the hero section, pause the video
+            if (!this.elements.heroVideo.paused) {
+                this.elements.heroVideo.pause();
+            }
+        } else {
+            // If user is viewing the hero section, play the video
+            if (this.elements.heroVideo.paused && !document.hidden) {
+                this.playVideo();
+            }
+        }
+
         // Set active nav item based on scroll position
         this.updateActiveNavItem(scrollPosition);
     }
