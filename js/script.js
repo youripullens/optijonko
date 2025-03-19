@@ -1,9 +1,9 @@
 // Handle routing
 document.addEventListener("DOMContentLoaded", function() {
-    // Routes (pages) configuration
+    // Routes configuration
     const routes = {
-        '/': 'index.html',
-        '/about': 'about.html',
+        '/': './index.html',
+        '/about': './about.html',
     };
 
     // Get the current path
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (routes[path]) {
             loadPage(routes[path]);
         } else {
-            loadPage('404.html'); // Show 404 if no route found
+            loadPage('./404.html'); // Show 404 if no route found, updated path here too
         }
     }
 
@@ -24,7 +24,8 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(response => response.text())
             .then(html => {
                 document.querySelector('main').innerHTML = html;
-            });
+            })
+            .catch(err => console.error("Error loading the page: ", err));
     }
 
     // Initial route handling
